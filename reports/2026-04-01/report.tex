@@ -1,0 +1,71 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage[T1]{fontenc}
+
+\title{Short Update: 5-Phone Clustering with DBSCAN Variants}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\section*{Summary}
+
+I ran DBSCAN on just 5 phoneme classes: \texttt{['s', 'ih', 'aa', 'iy', 'n']}, instead of the full set, to check whether a smaller and acoustically cleaner subset would produce better clustering.
+
+This gave a dataset of about \texttt{352k} frame-level examples. For the actual clustering runs, I used subsets between \texttt{10k} and \texttt{50k} frames, because those were enough to capture the density structure while still keeping the experiments manageable.
+
+I standardized the MFCC features before clustering, because DBSCAN uses Euclidean distance [straight-line distance in feature space], and the \texttt{c0} coefficient [log energy] has a much larger numeric range than \texttt{c1-c11}, while \texttt{c1-c11} are more useful for distinguishing phonemes.
+
+To choose the DBSCAN hyperparameters, I used k-distance quantiles [distances to the k-th nearest neighbor, which help estimate a reasonable neighborhood radius]. I then ran a grid-search style sweep over the two main DBSCAN parameters: \texttt{epsilon} [the radius within which points are considered neighbors] and \texttt{min\_samples} [the minimum number of neighboring points required for a point to become a core point and form a cluster].
+
+Even when DBSCAN produced \texttt{4--5} clusters, the cluster quality was still not good. This was better than the earlier full-phone experiments, where about \texttt{90\%} of the frames were classified as noise [points not assigned to any cluster]; in the 5-phone setting, the noise fraction reduced to roughly \texttt{30\%} in the better configurations.
+
+The main issue is the standard DBSCAN trade-off. If \texttt{epsilon} is too small [the neighborhood radius is too strict], DBSCAN creates many tiny clusters and coverage drops because too many points become noise. If \texttt{epsilon} is too large [the neighborhood radius is too loose], many points merge into one large cluster.
+
+I also tried HDBSCAN [a hierarchical version of DBSCAN that can handle variable-density clusters better than a single global \texttt{epsilon}]. It gave \texttt{2} clusters with better quality: one extremely clean \texttt{s} cluster, and one mixed vowel/nasal cluster.
+
+I also tried GMM [Gaussian Mixture Model, a probabilistic clustering method that models each cluster as a Gaussian distribution]. For GMM, the BIC [Bayesian Information Criterion, used for selecting the number of components] kept improving up to \texttt{11} components. When I forced GMM to use \texttt{5} clusters for comparison, \texttt{s} and \texttt{aa} were modeled very cleanly, but \texttt{ih} and \texttt{iy} still overlapped heavily even in GMM.
+
+So the main takeaway is that restricting to 5 classes helped compared to the full set, but the feature space is still not clean enough for DBSCAN-style clustering to recover all phoneme classes well.
+
+\section*{Representative Results}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+Method & Clusters & Coverage & NMI & Key observation \\
+\midrule
+DBSCAN & 5 & 0.6326 & 0.1086 & One large mixed cluster dominates \\
+HDBSCAN & 2 & 0.1656 & 0.2329 & Very clean \texttt{s} cluster, rest still mixed \\
+GMM (5 components) & 5 & 1.0000 & 0.5546 & \texttt{s} and \texttt{aa} are modeled cleanly \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{Figures}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{assets/dbscan_1.png}
+\caption{Standard DBSCAN on the 5-phone setting. Although the run produces 5 clusters, most clustered points fall into one large mixed cluster, so the clustering is not meaningful.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{assets/hdbscan_minsz_50.png}
+\caption{HDBSCAN result. This method is designed to better handle variable-density structure. It isolates a very clean \texttt{s} cluster but still does not recover all 5 phones cleanly.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{assets/gmm_clusters.png}
+\caption{GMM with 5 components. This gives the best overall agreement among the tried methods, especially for \texttt{s} and \texttt{aa}, but \texttt{ih} and \texttt{iy} still overlap substantially.}
+\end{figure}
+
+\end{document}
