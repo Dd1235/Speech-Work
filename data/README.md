@@ -13,3 +13,6 @@ Not tracked in git (~2.1 GB). TIMIT-derived dumps, 12-dim MFCC per frame.
 Point scripts at a different location with `SPEECH_DATA=/path/to/data`.
 
 Source: lab server, `/mnt/disk1/` (credentials not stored here).
+
+Original working folder (everything, unpruned): `OneDrive-iiit-b/sem6_asr_pe/`.
+See [`../self-study/where-things-are.md`](../self-study/where-things-are.md).
