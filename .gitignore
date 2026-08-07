@@ -1,0 +1,17 @@
+# corpora — too large for git, kept locally (see data/README.md)
+data/
+*.json
+*.pkl
+!artifacts/*.pkl
+*.zip
+
+# personal: proposals, reading material, server notes
+resources/
+
+# latex build
+*.aux
+*.log
+*.out
+*.synctex.gz
+.DS_Store
+__pycache__/
