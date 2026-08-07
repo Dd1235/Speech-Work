@@ -107,6 +107,7 @@ Density methods trade coverage for purity and never get both. A parametric model
 | [`paper/`](paper) | `paper.tex`, `paper.pdf`, figures |
 | [`reports/`](reports) | progress reports, Apr 2026 |
 | [`artifacts/`](artifacts) | `support_set_40phone.pkl` — 390 prototypes + 39 class Gaussians |
+| [`self-study/`](self-study) | plan for continuing, and where older work lives |
 | `data/` | not tracked, see [`data/README.md`](data/README.md) |
 
 ## Order of work
@@ -134,6 +135,8 @@ cd paper && tectonic paper.tex
 ---
 
 ## Next
+
+Plan and pointers back to the original folder: [`self-study/`](self-study)
 
 **Corrections to carry forward** — the earlier "39 clusters recovered at τ=0.5" is grid-sensitive (a finer ε grid gives 52). Earlier few-shot numbers drew queries from the support pool; with held-out queries 5-way 1-shot is 0.589, not 0.807.
 
