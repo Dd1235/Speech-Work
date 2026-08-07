@@ -1,0 +1,43 @@
+prototype frames excluded: 390
+loading corpus ...
+utterances: 4620
+pool built. sizes (first 5): {'sil': 367140, 's': 84481, 'ih': 84260, 'aa': 73875, 'iy': 62891}
+held-out matrix: (11700, 12)
+
+=== held-out top-1 accuracy (39-way, 11700 frames) ===
+  nearest_prototype_mean_euclidean     0.2773
+  nearest_class_mean_euclidean         0.2974
+  min_mahalanobis                      0.3346
+  gaussian_loglik_qda                  0.3675
+  chance                               0.0256
+
+=== best / worst phones (QDA) ===
+phone   n  acc_proto  acc_mahal  acc_qda
+    f 300   0.403333   0.220000 0.740000
+    y 300   0.503333   0.423333 0.686667
+    w 300   0.566667   0.550000 0.686667
+    s 300   0.383333   0.386667 0.600000
+  sil 300   0.540000   0.610000 0.590000
+   ae 300   0.363333   0.360000 0.563333
+   ng 300   0.393333   0.540000 0.516667
+   ch 300   0.256667   0.250000 0.480000
+phone   n  acc_proto  acc_mahal  acc_qda
+   ow 300   0.210000   0.260000 0.230000
+    v 300   0.190000   0.060000 0.226667
+   oy 300   0.116667   0.243333 0.223333
+   eh 300   0.210000   0.243333 0.206667
+   ay 300   0.203333   0.213333 0.193333
+   uh 300   0.166667   0.250000 0.153333
+   ah 300   0.173333   0.266667 0.146667
+   ih 300   0.103333   0.186667 0.106667
+
+mean QDA acc, 8 DBSCAN-absorbed phones: 0.3038
+mean QDA acc, other 31 phones      : 0.384
+
+=== N-way K-shot, nearest centroid, HELD-OUT queries (400 episodes) ===
+  N= 5  K=1: 0.589+/-0.224   K=2: 0.636+/-0.228   K=5: 0.673+/-0.208   K=10: 0.689+/-0.210
+  N=10  K=1: 0.442+/-0.160   K=2: 0.476+/-0.154   K=5: 0.521+/-0.157   K=10: 0.538+/-0.155
+  N=20  K=1: 0.317+/-0.104   K=2: 0.351+/-0.101   K=5: 0.379+/-0.103   K=10: 0.403+/-0.106
+  N=39  K=1: 0.207+/-0.061   K=2: 0.233+/-0.062   K=5: 0.262+/-0.066   K=10: 0.269+/-0.068
+
+saved -> /private/tmp/claude-501/-Users-dedeepyaavancha-Library-CloudStorage-OneDrive-iiit-b-sem6-asr-pe/32343c6b-bfe0-45eb-8613-6d8abc95b4f3/scratchpad/e3_results.json
